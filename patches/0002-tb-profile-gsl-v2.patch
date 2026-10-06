@@ -1,0 +1,15 @@
+
+diff --git a/src/tb_profile.c b/src/tb_profile.c
+index 1674b66..87cecd9 100644
+--- a/src/tb_profile.c
++++ b/src/tb_profile.c
+@@ -674,7 +674,7 @@ static void fit_gaussian(tb_profile_t * tb_profile) {
+ 
+ #if GSL_MAJOR_VERSION > 1     
+     {
+-      gsl_matrix *J = gsl_matrix_alloc (result->line->len, num_p);;  
++      gsl_matrix *J = gsl_matrix_alloc (solver->fdf->n, solver->fdf->p);  
+       gsl_multifit_fdfsolver_jac(solver, J);
+       gsl_multifit_covar (J, 0.0, covar);
+       gsl_matrix_free(J);
+

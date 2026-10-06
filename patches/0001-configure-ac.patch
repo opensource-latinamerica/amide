@@ -1,0 +1,38 @@
+
+diff --git a/configure.ac b/configure.ac
+index c8be6f4..65274a8 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -15,6 +15,9 @@ AC_PROG_CC
+ AC_PROG_CXX
+ AC_PROG_LIBTOOL
+ 
++# Force modern GCC to use legacy C behaviors for older codebase compatibility
++CFLAGS="$CFLAGS -std=gnu89 -Wno-error"
++
+ AC_CHECK_HEADERS(unistd.h, AC_DEFINE(HAVE_UNISTD_H))
+ AC_CHECK_SIZEOF(long,8)
+ AC_CHECK_SIZEOF(long long,8)
+@@ -125,6 +128,12 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <dcmtk/dcmdata/dcddirif.h>],
+ LIBS="${saved_libs}"
+ CXXFLAGS="${saved_cxxflags}"                                                                                        
+ 
++# Clear DCMTK libs if not found - they get substituted into Makefile otherwise
++if test "$FOUND_DCMDATA" != "yes"; then
++  AMIDE_LIBDCMDATA_LIBS=""
++  AMIDE_LIBDCMDATA_CFLAGS=""
++fi
++
+ 
+ dnl trying to phase out libfame use in favor of ffmpeg
+ PKG_CHECK_MODULES(FFMPEG, [
+@@ -332,7 +341,7 @@ AC_ARG_ENABLE(
+ 	libdcmdata,
+ 	[  --enable-libdcmdata	  Compile in DCMTK support for DICOM files [default=yes]], 
+ 	enable_libdcmdata="$enableval", 
+-	enable_libdcmdata=yes)
++	enable_libdcmdata=no)
+ 
+ if (test $enable_libdcmdata = yes) && (test $FOUND_DCMDATA = yes); then
+ 	echo "compiling with DCMTK support for DICOM files"
+
