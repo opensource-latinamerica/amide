@@ -24,8 +24,8 @@ as well, along with version 2.95.  Early 3.* Versions of gcc will
 quite likely generate compilation errors (and make AMIDE unstable) if
 optimizations are used when compiling.
 
-For modern GCC (13+), patches in `patches/` add `-std=gnu89 -Wno-error`
-to allow legacy C syntax.
+For modern GCC (13+), patches in `patches/` add `-std=gnu89 -Wno-error -Wno-deprecated-declarations`
+to allow legacy C syntax and suppress deprecation warnings.
 
 
 
@@ -164,12 +164,14 @@ sudo apt-get install build-essential autoconf automake libtool pkg-config \
 
 | Patch | Purpose |
 |-------|---------|
-| `0001-configure-ac.patch` | GCC 13+ compat (`-std=gnu89 -Wno-error`), DCMTK default off, clear libs |
+| `0001-configure-ac.patch` | GCC 13+ compat (`-std=gnu89 -Wno-error -Wno-deprecated-declarations`), DCMTK default off, clear libs when not found |
 | `0002-tb-profile-gsl-v2.patch` | GSL 2.8+ Jacobian API fix (`fdf->n`, `fdf->p`) |
 | `0003-amitk-roi-c-funcptr.patch` | C99 function pointer fix in `amitk_roi.c` |
 | `0004-amitk-roi-h-funcptr.patch` | Same fix in `amitk_roi.h` |
 | `0005-amitk-roi-variable-type-c-funcptr.patch` | Fix in m4-generated `amitk_roi_variable_type.c` |
 | `0006-amitk-roi-variable-type-h-funcptr.patch` | Fix in m4-generated `amitk_roi_variable_type.h` |
+| `0007-fix-parallel-m4-build.patch` | Add `.NOTPARALLEL:` to `src/Makefile.am` to fix m4 header generation race |
+| `0008-fix-headless-log-handler.patch` | Use nopopup log handler to avoid GTK dialog crashes in headless/Wayland environments |
 
 
 Building gtk-doc files
