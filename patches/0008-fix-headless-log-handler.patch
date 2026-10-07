@@ -1,0 +1,17 @@
+
+diff --git a/src/amide.c b/src/amide.c
+index e4fc9dc..8c92660 100644
+--- a/src/amide.c
++++ b/src/amide.c
+@@ -226,8 +226,8 @@ int main (int argc, char *argv []) {
+   /* specify my own error handler */
+   //g_log_set_handler (NULL, G_LOG_LEVEL_WARNING, amide_log_handler, preferences);
+ 
+-  /* specify my message handler */
+-  g_log_set_handler (NULL, G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_WARNING | G_LOG_LEVEL_INFO | G_LOG_LEVEL_DEBUG, amide_log_handler, preferences);
++  /* specify my message handler - use nopopup to avoid crashes in headless/Wayland environments */
++  g_log_set_handler (NULL, G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_WARNING | G_LOG_LEVEL_INFO | G_LOG_LEVEL_DEBUG, amide_log_handler_nopopup, preferences);
+ 
+   /* specify the default directory */
+   ui_common_set_last_path_used(AMITK_PREFERENCES_DEFAULT_DIRECTORY(preferences));
+
